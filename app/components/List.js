@@ -1,109 +1,114 @@
 import React from 'react';
-import { familyList, generateAgeCount } from '../familyList';
+import {family,numberVotes}from '../familyList.js';
 
+class Family extends React.Component{
+    constructor(props){
+        super(props);
+        this.handleNumbVotes=this.handleNumbVotes.bind(this);
 
-class Family extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleUpAge = this.handleUpAge.bind(this);
-  }
-
-  handleUpAge() {
-    this.props.onAge(this.props.id);
-  }
-
-  render() {
-    return (
-        <div className='list'>
-          <div className='image'>
-            {/* <img src={this.props.productImageUrl} /> */}
-          </div>
-          <div className='content'>
-            <div className='header'>
-              <a onClick={this.handleUpAge}>
-                <img src={this.props.childImageUrl} />
-              </a>
-              {this.props.votes}
-            </div>
-            <div className='firstname'>
-              <a href={this.props.url}>
-                {this.props.firstname}
-              </a>
-
-            </div>
-            <div className='lastname'>
-              {this.props.lastname}
-            </div>
-            <div className='gender'>
-                {this.props.gender}
-            </div>
-            <div className='age'>
-                {this.props.age}
-            </div>
-          </div>
-        </div>
-      );
-  }
+    }
+handleNumbVotes(){
+    this.props.onVote(this.props.id);
 }
 
-class ListFamily extends React.Component {
-  constructor (props) {
-    super(props);
+    render(){
 
-    this.state = {
-      family: []
+
+        return(
+
+            <div className="kidInfo">
+                <ul>
+                    <li>
+                        <div className="id">{this.props.id}</div>
+                        <div className="firstname">{this.props.firstname}</div>
+                        <div className="lastname">{this.props.lastname}</div>
+                        <div className="gender">{this.props.gender}</div>
+                        <div className="age">
+                            <a onClick={this.handleNumbVotes}>
+                              <img src={this.props.img} className="img"/>
+
+                            </a>
+                             {this.props.votes}
+                        </div>
+
+
+
+                    </li>
+                    <select className="kidCaract" >
+                        <option value="Cool">Cool</option>
+                        <option value="Not cool">Not Cool</option>
+                    </select>
+                </ul>
+
+            </div>
+
+        );
+    }
+}
+
+class List extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            family:[]
+        }
+        this.handleChildUpVotes=this.handleChildUpVotes.bind(this);
+      }
+
+
+    componentDidMount(){
+        this.setState({family:family});
+
     }
 
-    this.handleFamilyUpAge = this.handleFamilyUpAge.bind(this);
-  }
-
-  componentDidMount() {
-    // Ajax, data stuff
-    this.setState({ family: family });
-  }
-
-  handleFamilyUpAge(familyId) {
-    const nextFamily = this.state.family.map((family) => {
-      if (family.id === familyId) {
-        return Object.assign({}, family, {
-          votes: family.votes + 1
+    handleChildUpVotes(familyIds){
+        const proxFamily=this.state.family.map((family)=>{
+            if(family.id === familyIds){
+                return Object.assign({},family,{
+                    votes:family.votes + 1
+                });
+            }else{
+                return family;
+            }
         });
-      } else {
-        return family;
-      }
-    });
-
-    this.setState({
-      family: nextFamily
-    });
-  }
-
-  render() {
-    const sortedFamily = this.state.family.sort((a, b) => (
-      b.votes - a.votes
-    ));
-    console.log(sortedFamily);
-    const familyComponents = sortedFamily.map((family) => (
-        <Product
-          key={'family-' + family.id}
-          id={family.id}
-          firstname={family.firstname}
-          lastname={family.lastname}
-          gender={family.gender}
-          age={family.age}
-          url={family.url}
-          votes={family.votes}
-         childImageUrl={family.childImageUrl}
-          onVote={this.handleFamilyUpAge}
-        />
-    ));
-    return (
-      <div className='items'>
-        {familyComponents}
-      </div>
-    );
-  }
+        // console.log(proxCar);
+        this.setState({
+            family:proxFamily
+        });
 }
 
+    render(){
+
+
+        const sortedVotes=this.state.family.sort((a,b)=>(
+            b.votes - a.votes
+        ));
+
+            const displayInfo=this.state.family.map((family)=>(
+                <Family
+                    key={'family-'+ family.id}
+                    id={family.id}
+                    firstname={family.firstname}
+                    lastname={family.lastname}
+                    gender={family.gender}
+                    img={family.img}
+                    onVote={this.handleChildUpVotes}
+                    votes={family.votes}
+
+                />
+            ));
+
+        return(
+            <div className="item">
+                {displayInfo}
+            </div>
+
+        );
+
+
+
+    }
+
+
+}
 export default List;
