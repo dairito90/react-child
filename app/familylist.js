@@ -4,7 +4,7 @@ function numberVotes(){
 
 const family=[
     {
-        // id:1,
+        id:1,
         firstname:"Firstname: Lulu",
         lastname:"Lastname: nice",
         gender:"Gender: F",
@@ -17,7 +17,7 @@ const family=[
         firstname:"Firstname: Albi",
         lastname:"Lastname: white",
         gender:"Gender: M",
-        img:"https://sites.google.com/a/bentonschools.org/benton-middle-school/_/rsrc/1448029672011/home/counselors-page/boy-cartoon-md.png?height=200&width=105",
+        img:"https://s-media-cache-ak0.pinimg.com/originals/a1/85/7f/a1857f76663b1b08a3b97b7a07210bc4.png",
         votes:numberVotes(),
 
     },
